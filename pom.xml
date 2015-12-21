@@ -1,0 +1,171 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.milo.craigcrawl</groupId>
+	<artifactId>craigcrawl</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+
+	<properties>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.4</version>
+				<configuration>
+					<repositoryLayout>flat</repositoryLayout>
+					<daemons>
+						<daemon>
+							<id>${project.artifactId}</id>
+							<mainClass>org.milo.craigcrawl.ApplicationCraigCrawl</mainClass>
+							<commandLineArguments>
+								<commandLineArgument>--conf</commandLineArgument>
+								<commandLineArgument>conf/server.conf</commandLineArgument>
+							</commandLineArguments>
+							<jvmSettings>
+								<initialMemorySize>64m</initialMemorySize>
+								<maxMemorySize>512m</maxMemorySize>
+								<maxStackSize>128m</maxStackSize>
+
+								<extraArguments>
+									<extraArgument>-Djava.library.path=/opt/native:/usr/local/lib</extraArgument>
+									<extraArgument>-Djava.awt.headless=true</extraArgument>
+									<extraArgument>-server</extraArgument>
+									<extraArgument>-XX:+ScavengeBeforeFullGC</extraArgument>
+									<extraArgument>-XX:+UseConcMarkSweepGC</extraArgument>
+									<extraArgument>-XX:+DisableExplicitGC</extraArgument>
+									<extraArgument>-XX:+UseParNewGC</extraArgument>
+									<extraArgument>-Dlog4j.configuration=file:conf/log4j.properties</extraArgument>
+
+								</extraArguments>
+							</jvmSettings>
+
+							<generatorConfigurations>
+								<generatorConfiguration>
+									<generator>jsw</generator>
+									<configuration>
+										<property>
+											<name>wrapper.java.command</name>
+											<value>/opt/jdk1.7.0_75/bin/java</value>
+										</property>
+										<property>
+											<name>wrapper.logfile</name>
+											<value>logs/wrapper.log</value>
+										</property>
+
+										<property>
+											<name>wrapper.startup.timeout</name>
+											<value>3600</value>
+										</property>
+
+										<property>
+											<name>wrapper.ping.timeout</name>
+											<value>3600</value>
+										</property>
+
+										<property>
+											<name> wrapper.shutdown.timeout</name>
+											<value>3600</value>
+										</property>
+
+									</configuration>
+									<includes>
+										<include>linux-x86-64</include>
+									</includes>
+								</generatorConfiguration>
+							</generatorConfigurations>
+
+							<platforms>
+								<platform>jsw</platform>
+							</platforms>
+						</daemon>
+					</daemons>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-jsw-scripts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>generate-daemons</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.flexjson</groupId>
+			<artifactId>flexjson</artifactId>
+			<version>3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.3-1103-jdbc41</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.0.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+	</dependencies>
+</project>

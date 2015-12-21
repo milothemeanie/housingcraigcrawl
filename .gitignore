@@ -1,0 +1,6 @@
+/target/
+.settings/org.eclipse.jdt.core.prefs
+*.prefs
+.project
+*.classpath
+src/main/resources/NewFile.xml
