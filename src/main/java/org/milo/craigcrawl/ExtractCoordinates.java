@@ -17,6 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.milo.craigcrawl.geocode.GeocodeResponse;
 import org.milo.craigcrawl.geocode.Result;
+import org.milo.craigcrawl.utils.CrawlDataSource;
 import org.milo.craigcrawl.utils.XmlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +97,8 @@ public class ExtractCoordinates implements Runnable
 				}
 			}
 
-		} catch (Throwable e)
+		}
+		catch (Throwable e)
 		{
 			LOGGER.error("Failed Geocode lookup", e);
 		}
@@ -200,7 +202,8 @@ public class ExtractCoordinates implements Runnable
 			geocode = XmlUtils.load(EntityUtils.toString(response.getEntity()),
 					GeocodeResponse.class);
 
-		} catch (JAXBException e)
+		}
+		catch (JAXBException e)
 		{
 			LOGGER.error("Failed to serliaze GeocodeResponse", e);
 		}

@@ -1,4 +1,4 @@
-package org.milo.craigcrawl;
+package org.milo.craigcrawl.utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;

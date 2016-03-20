@@ -23,6 +23,7 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.milo.craigcrawl.utils.CrawlDataSource;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -31,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 public class CrawlJob implements Job
 {
-	
+
 	private static final String baseurl = "https://oklahomacity.craigslist.org";
 
 	// private final ThreadPoolExecutor executorPool = new ThreadPoolExecutor(1,
@@ -43,15 +44,14 @@ public class CrawlJob implements Job
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CrawlJob.class);
 
-
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException
 	{
-		
+
 		LOGGER.info("Starting Craig Crawl...");
 		final PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-		
-		try(final CloseableHttpClient client = HttpClients.custom()
+
+		try (final CloseableHttpClient client = HttpClients.custom()
 				.setConnectionManager(cm).build())
 		{
 			URI uri = URI.create(baseurl + "/search/apa");
@@ -76,14 +76,13 @@ public class CrawlJob implements Job
 			long endtime = Calendar.getInstance().getTimeInMillis();
 			LOGGER.info("RunTime:" + (endtime - starttime) / 1000);
 
-		} catch (IOException | SQLException e)
+		}
+		catch (IOException | SQLException e)
 		{
 			LOGGER.error("Exception while scheduling work", e);
 		}
 	}
-	
-	
-	
+
 	private URI parseAPA(final CloseableHttpClient client, final URI link)
 			throws ClientProtocolException, IOException
 	{

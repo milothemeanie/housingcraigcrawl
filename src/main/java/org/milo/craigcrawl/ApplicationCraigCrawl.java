@@ -31,18 +31,17 @@ public class ApplicationCraigCrawl
 
 		final Trigger trigger = newTrigger()
 				.withIdentity(new TriggerKey("CraigTrigger", "Crawl"))
-				.withSchedule(simpleSchedule()
-			    .withIntervalInMinutes(60)
-				.repeatForever())
-				.startNow()
-				.build();
+				.withSchedule(
+						simpleSchedule().withIntervalInMinutes(60)
+								.repeatForever()).startNow().build();
 
 		try
 		{
 			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 			scheduler.scheduleJob(job, trigger);
 			scheduler.start();
-		} catch (SchedulerException e)
+		}
+		catch (SchedulerException e)
 		{
 			LOGGER.error("Error while scheduling job", e);
 		}
